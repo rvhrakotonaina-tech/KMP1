@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Money tracker"
 include(":app")
+include(":shared")
  
