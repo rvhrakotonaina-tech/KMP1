@@ -1,0 +1,26 @@
+workflows:
+  ios-kmp-build:
+    name: iOS / KMP Shared Build
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      java: 17
+      xcode: latest
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+        - ~/.konan
+    scripts:
+      - name: Verify Java and Gradle setup
+        script: |
+          java -version
+          ./gradlew --version
+      - name: Build iOS KMP Framework (Device - arm64)
+        script: |
+          ./gradlew :shared:linkDebugFrameworkIosArm64
+      - name: Build iOS KMP Framework (Simulator - arm64)
+        script: |
+          ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
+    artifacts:
+      - shared/build/bin/iosArm64/debugFramework/MoneyTrackerShared.framework
+      - shared/build/bin/iosSimulatorArm64/debugFramework/MoneyTrackerShared.framework
